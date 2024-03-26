@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Portfolio Tracker</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Stock Portfolio Tracker</h1>
+    
+    <form method="post">
+        <label for="symbol">Stock Symbol:</label>
+        <input type="text" id="symbol" name="symbol" required>
+        <label for="shares">Number of Shares:</label>
+        <input type="number" id="shares" name="shares" required>
+        <button type="submit">Add Stock</button>
+    </form>
+
+    <h2>Portfolio</h2>
+    <table>
+        <tr>
+            <th>Stock</th>
+            <th>Shares</th>
+            <th>Price</th>
+            <th>Current Value</th>
+            <th>Action</th>
+        </tr>
+        {% for stock in portfolio.stocks %}
+        <tr>
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.shares }}</td>
+            <td>{{ stock.price }}</td>
+            <td>{{ stock.current_value() }}</td>
+            <td>
+                <form method="post" action="/delete/{{ stock.symbol }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Total Portfolio Value: {{ portfolio.portfolio_value() }}</h2>
+</body>
+</html>
